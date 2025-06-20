@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class MagicSquares {
+public class MagicSquare {
     public static boolean testMagic(String pathName) throws IOException {
         // Open the file
         BufferedReader reader = new BufferedReader(new FileReader(pathName));
@@ -19,7 +19,11 @@ public class MagicSquares {
             String[] parts = line.split("\t");
             int sum = 0;
             for (String part : parts) {
-                sum += Integer.parseInt(part);
+                //修剪String避免出现空格！
+                part = part.trim();
+                if (!part.isEmpty()) {
+                    sum += Integer.parseInt(part);
+                }
             }
 
             if (lastSum == -1) {
@@ -38,8 +42,11 @@ public class MagicSquares {
 
     public static void main(String[] args) throws IOException {
         String[] fileNames = { "Mercury.txt", "Luna.txt" };
-        for (String fileName : fileNames) {
+        for (String fileName : fileNames)
+        try{
             System.out.println(fileName + " is magic? " + testMagic(fileName));
+        }catch (IOException e) {
+            System.out.println("Failed to read " + fileName + ": " + e.getMessage());
         }
     }
 }
